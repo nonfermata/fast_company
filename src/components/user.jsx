@@ -1,27 +1,24 @@
-import React, {useState} from 'react'
+import React from 'react'
 import Quality from "./quality"
-import Bookmarks from "./bookmarks"
+import Bookmark from "./bookmark"
+import DeleteButton from "./deleteButton";
 
-const User = ({_id, name, qualities, profession, completedMeetings, rate, bookmark, onDelete}) => {
-    const [mark, setMark] = useState(bookmark)
-    const handleMark = () => setMark(!mark)
+const User = ({ _id, name, qualities, profession, completedMeetings, rate, bookmark, onDelete, onMark }) => {
 
     return (
         <tr>
             <td>{name}</td>
             <td>
-                {qualities.map(item => <Quality key={item._id} {...item}/>)}
+                {qualities.map(item => <Quality key={item._id} {...item} />)}
             </td>
             <td>{profession.name}</td>
             <td>{completedMeetings}</td>
             <td>{rate + "/5"}</td>
             <td>
-                <Bookmarks mark={mark} onMark={handleMark}/>
+                <Bookmark id={_id} bookmark={bookmark} onMark={onMark} />
             </td>
             <td>
-                <button className='btn btn-danger' onClick={() => onDelete(_id)}>
-                    delete
-                </button>
+                <DeleteButton id={_id} onDelete={onDelete}/>
             </td>
         </tr>
     )
