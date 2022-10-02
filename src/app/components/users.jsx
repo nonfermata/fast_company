@@ -73,7 +73,7 @@ const Users = ({
 };
 Users.propTypes = {
     users: PropTypes.arrayOf(PropTypes.object).isRequired,
-    professions: PropTypes.oneOfType(PropTypes.object, PropTypes.array),
+    professions: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     selectedProf: PropTypes.object,
     currentPage: PropTypes.number.isRequired,
     pageSize: PropTypes.number.isRequired,
