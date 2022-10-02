@@ -24,9 +24,8 @@ const Users = ({
     const usersCrops = paginate(filteredUsers, currentPage, pageSize);
     return (
         <div className="d-flex">
-            <SearchStatus length={count} />
             {professions && (
-                <>
+                <div className="d-flex flex-column flex-shrink-0 p-3">
                     <GroupList
                         items={professions}
                         onItemSelect={onItemSelect}
@@ -38,35 +37,37 @@ const Users = ({
                     >
                         Очистить
                     </button>
-                </>
+                </div>
             )}
-
-            {count > 0 && (
-                <table className="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Имя</th>
-                            <th scope="col">Качества</th>
-                            <th scope="col">Профессия</th>
-                            <th scope="col">Встретился, раз</th>
-                            <th scope="col">Оценка</th>
-                            <th scope="col">Избранное</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {usersCrops.map((user) => (
-                            <User key={user._id} {...rest} {...user} />
-                        ))}
-                    </tbody>
-                </table>
-            )}
-            <Pagination
-                count={count}
-                pageSize={pageSize}
-                currentPage={currentPage}
-                pageChange={pageChange}
-            />
+            <div className="d-flex flex-column">
+                <SearchStatus length={count} />
+                {count > 0 && (
+                    <table className="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Имя</th>
+                                <th scope="col">Качества</th>
+                                <th scope="col">Профессия</th>
+                                <th scope="col">Встретился, раз</th>
+                                <th scope="col">Оценка</th>
+                                <th scope="col">Избранное</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {usersCrops.map((user) => (
+                                <User key={user._id} {...rest} {...user} />
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+                <Pagination
+                    count={count}
+                    pageSize={pageSize}
+                    currentPage={currentPage}
+                    pageChange={pageChange}
+                />
+            </div>
         </div>
     );
 };

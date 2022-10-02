@@ -3,8 +3,7 @@ import Users from "./components/users";
 import api from "./api";
 
 const App = () => {
-    const initialUsers = api.users.fetchAll();
-    const [users, setUsers] = useState(initialUsers);
+    const [users, setUsers] = useState(api.users.fetchAll());
     const pageSize = 4;
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
