@@ -18,7 +18,7 @@ const Users = ({
     ...rest
 }) => {
     const filteredUsers = selectedProf
-        ? users.filter((user) => user.profession === selectedProf)
+        ? users.filter((user) => user.profession._id === selectedProf._id)
         : users;
     const count = filteredUsers.length;
     const usersCrops = paginate(filteredUsers, currentPage, pageSize);
@@ -73,7 +73,7 @@ const Users = ({
 };
 Users.propTypes = {
     users: PropTypes.arrayOf(PropTypes.object).isRequired,
-    professions: PropTypes.object,
+    professions: PropTypes.oneOfType(PropTypes.object, PropTypes.array),
     selectedProf: PropTypes.object,
     currentPage: PropTypes.number.isRequired,
     pageSize: PropTypes.number.isRequired,
