@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Users from "./components/users";
-import SearchStatus from "./components/searchStatus";
 import api from "./api";
 
 const App = () => {
-    const [users, setUsers] = useState(api.users.fetchAll());
-    const count = users.length;
+    const initialUsers = api.users.fetchAll();
+    const [users, setUsers] = useState(initialUsers);
     const pageSize = 4;
     const [currentPage, setCurrentPage] = useState(1);
+    const [professions, setProfessions] = useState();
+    const [selectedProf, setSelectedProf] = useState();
+    useEffect(() => {
+        api.professions.fetchAll().then((data) => setProfessions(data));
+    }, []);
+
+    const handleProfessionSelect = (item) => {
+        setCurrentPage(1);
+        setSelectedProf(item);
+    };
+
+    const clearFilter = () => {
+        setSelectedProf();
+    };
 
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
@@ -33,15 +46,17 @@ const App = () => {
 
     return (
         <>
-            <SearchStatus length={users.length} />
             <Users
+                professions={professions}
                 users={users}
-                count={count}
                 pageSize={pageSize}
                 currentPage={currentPage}
+                selectedProf={selectedProf}
                 onToggleBookMark={handleToggleBookMark}
                 onDelete={handleDelete}
                 pageChange={handlePageChange}
+                onItemSelect={handleProfessionSelect}
+                onClearFilter={clearFilter}
             />
         </>
     );
