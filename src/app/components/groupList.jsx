@@ -8,19 +8,20 @@ const GroupList = ({
     onItemSelect,
     selectedItem
 }) => {
+    const itemsArray = typeof items === "object" ? Object.values(items) : items;
     return (
         <ul className="list-group">
-            {Object.keys(items).map((item) => (
+            {itemsArray.map((item) => (
                 <li
-                    key={items[item][valueProperty]}
+                    key={item[valueProperty]}
                     className={
                         "list-group-item" +
-                        (selectedItem === items[item] ? " active" : "")
+                        (selectedItem === item ? " active" : "")
                     }
-                    onClick={() => onItemSelect(items[item])}
+                    onClick={() => onItemSelect(item)}
                     role="button"
                 >
-                    {items[item][contentProperty]}
+                    {item[contentProperty]}
                 </li>
             ))}
         </ul>
@@ -31,7 +32,7 @@ GroupList.defaultProps = {
     contentProperty: "name"
 };
 GroupList.propTypes = {
-    items: PropTypes.object.isRequired,
+    items: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     selectedItem: PropTypes.object,
     valueProperty: PropTypes.string.isRequired,
     contentProperty: PropTypes.string.isRequired,

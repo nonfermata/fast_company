@@ -3,14 +3,16 @@ import Users from "./components/users";
 import api from "./api";
 
 const App = () => {
-    const initialUsers = api.users.fetchAll();
-    const [users, setUsers] = useState(initialUsers);
-    const pageSize = 4;
+    const [users, setUsers] = useState();
+    const pageSize = 6;
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfessions(data));
+    }, []);
+    useEffect(() => {
+        api.users.fetchAll().then((data) => setUsers(data));
     }, []);
 
     const handleProfessionSelect = (item) => {
@@ -46,20 +48,21 @@ const App = () => {
 
     return (
         <>
-            <Users
-                professions={professions}
-                users={users}
-                pageSize={pageSize}
-                currentPage={currentPage}
-                selectedProf={selectedProf}
-                onToggleBookMark={handleToggleBookMark}
-                onDelete={handleDelete}
-                pageChange={handlePageChange}
-                onItemSelect={handleProfessionSelect}
-                onClearFilter={clearFilter}
-            />
+            {users && (
+                <Users
+                    professions={professions}
+                    users={users}
+                    pageSize={pageSize}
+                    currentPage={currentPage}
+                    selectedProf={selectedProf}
+                    onToggleBookMark={handleToggleBookMark}
+                    onDelete={handleDelete}
+                    pageChange={handlePageChange}
+                    onItemSelect={handleProfessionSelect}
+                    onClearFilter={clearFilter}
+                />
+            )}
         </>
     );
 };
-
 export default App;
