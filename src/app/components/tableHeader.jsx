@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import ArrowIcon from "./arrowIcon";
 
 const TableHeader = ({ selectedSort, onSort, columns }) => {
     const handleSort = (item) => {
@@ -14,21 +15,22 @@ const TableHeader = ({ selectedSort, onSort, columns }) => {
         <thead>
             <tr>
                 {Object.keys(columns).map((column) => {
-                    return (<th
-                        key={column}
-                        role={columns[column].path && "button"}
-                        onClick={
-                            columns[column].path &&
-                            (() => handleSort(columns[column].path))
-                        }
-                        scope="col"
-                    >
-                        {selectedSort.path === columns[column].path
-                            ? selectedSort.order === "asc"
-                                ? <>{columns[column].name} <i className="bi bi-caret-up-fill"></i></>
-                                : <>{columns[column].name} <i className="bi bi-caret-down-fill"></i></>
-                            : columns[column].name}
-                    </th>);
+                    return (
+                        <th
+                            key={column}
+                            role={columns[column].path && "button"}
+                            onClick={
+                                columns[column].path &&
+                                (() => handleSort(columns[column].path))
+                            }
+                            scope="col"
+                        >
+                            {selectedSort.path === columns[column].path
+                                ? <>{columns[column].name} <ArrowIcon direction={selectedSort.order} /></>
+                                : columns[column].name
+                            }
+                        </th>
+                    );
                 })}
             </tr>
         </thead>

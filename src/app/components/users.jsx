@@ -6,6 +6,7 @@ import SearchStatus from "./searchStatus";
 import UsersTable from "./usersTable";
 import _ from "lodash";
 import api from "../api";
+import Loading from "./loading";
 
 const Users = () => {
     const [users, setUsers] = useState();
@@ -112,7 +113,7 @@ const Users = () => {
             </div>
         );
     }
-    return "loading...";
+    return <Loading />;
 };
 
 export default Users;

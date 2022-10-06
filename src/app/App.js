@@ -5,7 +5,3 @@ const App = () => {
     return <Users />;
 };
 export default App;
-
-// pageChange={handlePageChange}
-// onItemSelect={handleProfessionSelect}
-// onClearFilter={clearFilter}
