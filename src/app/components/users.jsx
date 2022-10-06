@@ -60,10 +60,10 @@ const Users = () => {
     if (users) {
         const filteredUsers = selectedProf
             ? users.filter(
-                  (user) =>
-                      JSON.stringify(user.profession) ===
+                (user) =>
+                    JSON.stringify(user.profession) ===
                       JSON.stringify(selectedProf)
-              )
+            )
             : users;
 
         const count = filteredUsers.length;
