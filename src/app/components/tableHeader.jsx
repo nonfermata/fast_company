@@ -1,62 +1,43 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const TableHeader = ({ selectedSort, onSort }) => {
+const TableHeader = ({ selectedSort, onSort, columns }) => {
     const handleSort = (item) => {
-        if (selectedSort.iter === item) {
+        if (selectedSort.path === item) {
             onSort({
                 ...selectedSort,
                 order: selectedSort.order === "asc" ? "desc" : "asc"
             });
-        } else onSort({ iter: item, order: "asc" });
+        } else onSort({ path: item, order: "asc" });
     };
     return (
         <thead>
             <tr>
-                <th
-                    role="button"
-                    onClick={() => handleSort("name")}
-                    scope="col"
-                >
-                    Имя
-                </th>
-                <th scope="col">Качества</th>
-                <th
-                    role="button"
-                    onClick={() => handleSort("profession.name")}
-                    scope="col"
-                >
-                    Профессия
-                </th>
-                <th
-                    role="button"
-                    onClick={() => handleSort("completedMeetings")}
-                    scope="col"
-                >
-                    Встретился, раз
-                </th>
-                <th
-                    role="button"
-                    onClick={() => handleSort("rate")}
-                    scope="col"
-                >
-                    Оценка
-                </th>
-                <th
-                    role="button"
-                    onClick={() => handleSort("bookmark")}
-                    scope="col"
-                >
-                    Избранное
-                </th>
-                <th />
+                {Object.keys(columns).map((column) => {
+                    return (<th
+                        key={column}
+                        role={columns[column].path && "button"}
+                        onClick={
+                            columns[column].path &&
+                            (() => handleSort(columns[column].path))
+                        }
+                        scope="col"
+                    >
+                        {selectedSort.path === columns[column].path
+                            ? selectedSort.order === "asc"
+                                ? <>{columns[column].name} <i className="bi bi-caret-up-fill"></i></>
+                                : <>{columns[column].name} <i className="bi bi-caret-down-fill"></i></>
+                            : columns[column].name}
+                    </th>);
+                })}
             </tr>
         </thead>
     );
 };
 TableHeader.propTypes = {
     selectedSort: PropTypes.object.isRequired,
-    onSort: PropTypes.func.isRequired
+    onSort: PropTypes.func.isRequired,
+    columns: PropTypes.object.isRequired
 };
 
 export default TableHeader;
