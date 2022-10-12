@@ -26,9 +26,15 @@ const TableHeader = ({ selectedSort, onSort, columns }) => {
                             scope="col"
                         >
                             {selectedSort.path === columns[column].path
-                                ? <>{columns[column].name} <ArrowIcon direction={selectedSort.order} /></>
-                                : columns[column].name
-                            }
+                                ? (
+                                    <>
+                                        {columns[column].name}{" "}
+                                        <ArrowIcon direction={selectedSort.order} />
+                                    </>
+                                )
+                                : (
+                                    columns[column].name
+                                )}
                         </th>
                     );
                 })}

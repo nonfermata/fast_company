@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from "react";
-import Pagination from "./pagination";
+import Pagination from "../components/pagination";
 import { paginate } from "../utils/paginate";
-import GroupList from "./groupList";
-import SearchStatus from "./searchStatus";
-import UsersTable from "./usersTable";
+import GroupList from "../components/groupList";
+import SearchStatus from "../components/searchStatus";
+import UsersTable from "../components/usersTable";
 import _ from "lodash";
 import api from "../api";
-import Loading from "./loading";
+import Loading from "../components/loading";
 
 const Users = () => {
     const [users, setUsers] = useState();
-    const pageSize = 4;
-    const [currentPage, setCurrentPage] = useState(1);
-    const [professions, setProfessions] = useState();
-    const [selectedProf, setSelectedProf] = useState();
-    useEffect(() => {
-        api.professions.fetchAll().then((data) => setProfessions(data));
-    }, []);
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data));
     }, []);
+
+    const [professions, setProfessions] = useState();
+    useEffect(() => {
+        api.professions.fetchAll().then((data) => setProfessions(data));
+    }, []);
+
+    const pageSize = 4;
+    const [currentPage, setCurrentPage] = useState(1);
+    const [selectedProf, setSelectedProf] = useState();
 
     const handleProfessionSelect = (item) => {
         setCurrentPage(1);
@@ -45,10 +47,6 @@ const Users = () => {
         );
     };
 
-    const handleSort = (item) => {
-        setSortBy(item);
-    };
-
     const handleDelete = (id) => {
         if (users.length - 1 === (currentPage - 1) * pageSize) {
             setCurrentPage(currentPage - 1);
@@ -58,12 +56,16 @@ const Users = () => {
 
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
 
+    const handleSort = (item) => {
+        setSortBy(item);
+    };
+
     if (users) {
         const filteredUsers = selectedProf
             ? users.filter(
                 (user) =>
                     JSON.stringify(user.profession) ===
-                      JSON.stringify(selectedProf)
+                    JSON.stringify(selectedProf)
             )
             : users;
 

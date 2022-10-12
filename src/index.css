@@ -7,15 +7,9 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-html,
-body,
-#root,
 .loading {
-    height: 100%;
-}
-
-.loading {
-    font-size: 1.2em;
+    font-size: 2em;
+    margin: 2%;
 }
 
 code {
