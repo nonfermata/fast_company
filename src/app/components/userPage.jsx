@@ -22,7 +22,10 @@ const UserPage = () => {
                 <QualitiesList qualities={user.qualities} />
                 <p>completedMeetings: {user.completedMeetings}</p>
                 <h3>Rate: {user.rate}</h3>
-                <button className="btn btn-outline-primary mt-2" onClick={handleAllUsers}>
+                <button
+                    className="btn btn-outline-primary mt-2"
+                    onClick={handleAllUsers}
+                >
                     Все пользователи
                 </button>
             </div>

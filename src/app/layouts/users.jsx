@@ -7,6 +7,7 @@ import UsersTable from "../components/usersTable";
 import _ from "lodash";
 import api from "../api";
 import Loading from "../components/loading";
+import { deletedUsersIds, addDeletedUserId } from "../utils/deletedUsersIds";
 
 const Users = () => {
     const [users, setUsers] = useState();
@@ -52,6 +53,7 @@ const Users = () => {
             setCurrentPage(currentPage - 1);
         }
         setUsers((users) => users.filter((user) => user._id !== id));
+        addDeletedUserId(id);
     };
 
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
@@ -60,7 +62,15 @@ const Users = () => {
         setSortBy(item);
     };
 
+    const [moveDeleted, setMoveDeleted] = useState(true);
     if (users) {
+        if (moveDeleted) {
+            deletedUsersIds.forEach((id) => {
+                setUsers((users) => users.filter((user) => user._id !== id));
+            });
+            setMoveDeleted(false);
+        }
+
         const filteredUsers = selectedProf
             ? users.filter(
                 (user) =>
