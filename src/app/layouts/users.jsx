@@ -72,13 +72,16 @@ const Users = () => {
             setMoveDeleted(false);
         }
 
-        const filteredUsers = selectedProf
-            ? users.filter(
-                  (user) =>
-                      JSON.stringify(user.profession) ===
-                      JSON.stringify(selectedProf)
-              )
-            : users;
+        let filteredUsers;
+        if (selectedProf) {
+            filteredUsers = users.filter(
+                (user) =>
+                    JSON.stringify(user.profession) ===
+                    JSON.stringify(selectedProf)
+            );
+        } else {
+            filteredUsers = users;
+        }
 
         const count = filteredUsers.length;
         const sortedUsers = _.orderBy(
