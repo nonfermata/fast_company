@@ -19,6 +19,6 @@ module.exports = {
             { anonymous: "always", named: "never" }
         ],
         quotes: ["error", "double", { allowTemplateLiterals: true }],
-        "operator-linebreak": ["error", "after"]
+        "operator-linebreak": ["error", "never"]
     }
 };

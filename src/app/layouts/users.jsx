@@ -74,10 +74,10 @@ const Users = () => {
 
         const filteredUsers = selectedProf
             ? users.filter(
-                (user) =>
-                    JSON.stringify(user.profession) ===
-                    JSON.stringify(selectedProf)
-            )
+                  (user) =>
+                      JSON.stringify(user.profession) ===
+                      JSON.stringify(selectedProf)
+              )
             : users;
 
         const count = filteredUsers.length;
@@ -105,7 +105,10 @@ const Users = () => {
                         </button>
                     </div>
                 )}
-                <div className="d-flex flex-column" style={{ flexGrow: "1" }}>
+                <div
+                    className="d-flex flex-column"
+                    style={{ flexGrow: "1" }}
+                >
                     <SearchStatus length={count} />
                     {count > 0 && (
                         <UsersTable
