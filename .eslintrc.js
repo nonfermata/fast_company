@@ -11,7 +11,7 @@ module.exports = {
     },
     plugins: ["react"],
     rules: {
-        indent: ["error", 4],
+        indent: ["error", 4, { SwitchCase: 1 }],
         "multiline-ternary": ["error", "always-multiline"],
         semi: [2, "always"],
         "space-before-function-paren": [

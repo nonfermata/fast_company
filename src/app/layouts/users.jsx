@@ -63,6 +63,7 @@ const Users = () => {
     };
 
     const [moveDeleted, setMoveDeleted] = useState(true);
+
     if (users) {
         if (moveDeleted) {
             deletedUsersIds.forEach((id) => {

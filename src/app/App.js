@@ -8,13 +8,13 @@ import UserPage from "./components/userPage";
 
 const App = () => {
     return (
-        <>
+        <div className="mainContainer">
             <NavBar />
             <Route exact path="/" component={Main} />
             <Route path="/login" component={Login} />
             <Route path="/users/:userId" component={UserPage} />
             <Route exact path="/users" component={Users} />
-        </>
+        </div>
     );
 };
 export default App;

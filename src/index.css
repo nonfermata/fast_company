@@ -7,6 +7,10 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.mainContainer {
+    padding: 30px 50px;
+}
+
 .loading {
     font-size: 2em;
 }
