@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import QualitiesList from "./qualitiesList";
 import api from "../api";
-import Loading from "./loading";
+import Loader from "../utils/loader";
 
 const UserPage = () => {
     const history = useHistory();
@@ -31,7 +31,7 @@ const UserPage = () => {
             </div>
         );
     }
-    return <Loading />;
+    return <Loader />;
 };
 
 export default UserPage;

@@ -6,8 +6,9 @@ import SearchStatus from "../components/searchStatus";
 import UsersTable from "../components/usersTable";
 import _ from "lodash";
 import api from "../api";
-import Loading from "../components/loading";
+import Loader from "../utils/loader";
 import { deletedUsersIds, addDeletedUserId } from "../utils/deletedUsersIds";
+import TextField from "../components/textField";
 
 const Users = () => {
     const [users, setUsers] = useState();
@@ -64,6 +65,20 @@ const Users = () => {
 
     const [moveDeleted, setMoveDeleted] = useState(true);
 
+    const [searchData, setSearchData] = useState("");
+
+    const handleSearchChange = ({ target }) => {
+        setSearchData(target.value);
+    };
+
+    useEffect(() => {
+        if (selectedProf) setSearchData("");
+    }, [selectedProf]);
+
+    useEffect(() => {
+        if (searchData) setSelectedProf();
+    }, [searchData]);
+
     if (users) {
         if (moveDeleted) {
             deletedUsersIds.forEach((id) => {
@@ -80,7 +95,7 @@ const Users = () => {
                     JSON.stringify(selectedProf)
             );
         } else {
-            filteredUsers = users;
+            filteredUsers = users.filter((user) => user.name.includes(searchData));
         }
 
         const count = filteredUsers.length;
@@ -113,6 +128,12 @@ const Users = () => {
                     style={{ flexGrow: "1" }}
                 >
                     <SearchStatus length={count} />
+                    <TextField
+                        placeholder="Поиск..."
+                        value={searchData}
+                        name="search"
+                        onChange={handleSearchChange}
+                    />
                     {count > 0 && (
                         <UsersTable
                             users={usersCrops}
@@ -132,7 +153,7 @@ const Users = () => {
             </div>
         );
     }
-    return <Loading />;
+    return <Loader />;
 };
 
 export default Users;
