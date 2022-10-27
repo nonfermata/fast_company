@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import QualitiesList from "./qualitiesList";
-import api from "../api";
-import Loader from "../utils/loader";
+import { useHistory } from "react-router-dom";
+import Qualities from "../../ui/qualities";
+import api from "../../../api";
+import Loader from "../../../utils/loader";
+import PropTypes from "prop-types";
 
-const UserPage = () => {
+const UserPage = ({ userId }) => {
     const history = useHistory();
-    const { userId } = useParams();
     const [user, setUser] = useState();
     useEffect(() => {
         api.users.getById(userId).then((object) => setUser(object));
@@ -19,7 +19,7 @@ const UserPage = () => {
             <div className="m-4">
                 <h1>{user.name}</h1>
                 <h2>Профессия: {user.profession.name}</h2>
-                <QualitiesList qualities={user.qualities} />
+                <Qualities qualities={user.qualities} />
                 <p>completedMeetings: {user.completedMeetings}</p>
                 <h3>Rate: {user.rate}</h3>
                 <button
@@ -32,6 +32,9 @@ const UserPage = () => {
         );
     }
     return <Loader />;
+};
+UserPage.propTypes = {
+    userId: PropTypes.string.isRequired
 };
 
 export default UserPage;

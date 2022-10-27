@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ArrowIcon from "./arrowIcon";
+import ArrowIcon from "../arrowIcon";
 
 const TableHeader = ({ selectedSort, onSort, columns }) => {
     const handleSort = (item) => {
