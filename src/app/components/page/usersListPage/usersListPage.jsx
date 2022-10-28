@@ -92,13 +92,13 @@ const UsersListPage = () => {
 
         const filteredUsers = selectedProf
             ? users.filter(
-                (user) =>
-                    JSON.stringify(user.profession) ===
+                  (user) =>
+                      JSON.stringify(user.profession) ===
                       JSON.stringify(selectedProf)
-            )
+              )
             : users.filter((user) =>
-                user.name.toLowerCase().includes(searchData.toLowerCase())
-            );
+                  user.name.toLowerCase().includes(searchData.toLowerCase())
+              );
 
         const count = filteredUsers.length;
         const sortedUsers = _.orderBy(
