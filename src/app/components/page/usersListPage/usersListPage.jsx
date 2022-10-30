@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, { useEffect, useState } from "react";
 import Pagination from "../../common/pagination";
 import { paginate } from "../../../utils/paginate";
@@ -7,11 +8,8 @@ import UsersTable from "../../ui/usersTable";
 import _ from "lodash";
 import api from "../../../api";
 import Loader from "../../../utils/loader";
-import {
-    deletedUsersIds,
-    addDeletedUserId
-} from "../../../utils/deletedUsersIds";
 import TextField from "../../common/form/textField";
+// import { deletedUsersIds, addDeletedUserId } from "../../../api/deletedUsersIds";
 
 const UsersListPage = () => {
     const [users, setUsers] = useState();
@@ -57,7 +55,7 @@ const UsersListPage = () => {
             setCurrentPage(currentPage - 1);
         }
         setUsers((users) => users.filter((user) => user._id !== id));
-        addDeletedUserId(id);
+        // addDeletedUserId(id);
     };
 
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
@@ -66,12 +64,10 @@ const UsersListPage = () => {
         setSortBy(item);
     };
 
-    const [moveDeleted, setMoveDeleted] = useState(true);
-
     const [searchData, setSearchData] = useState("");
 
-    const handleSearchChange = ({ target }) => {
-        setSearchData(target.value);
+    const handleSearchChange = (name, value) => {
+        setSearchData(value);
     };
 
     useEffect(() => {
@@ -82,13 +78,15 @@ const UsersListPage = () => {
         if (searchData) setSelectedProf();
     }, [searchData]);
 
+    // const [moveDeleted, setMoveDeleted] = useState(true);
+
     if (users) {
-        if (moveDeleted) {
-            deletedUsersIds.forEach((id) => {
-                setUsers((users) => users.filter((user) => user._id !== id));
-            });
-            setMoveDeleted(false);
-        }
+        // if (moveDeleted) {
+        //     deletedUsersIds.forEach((id) => {
+        //         setUsers((users) => users.filter((user) => user._id !== id));
+        //     });
+        //     setMoveDeleted(false);
+        // }
 
         const filteredUsers = selectedProf
             ? users.filter(

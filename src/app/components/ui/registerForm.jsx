@@ -1,26 +1,42 @@
 import React, { useEffect, useState } from "react";
 import TextField from "../common/form/textField";
 import validator from "../../utils/validator";
+import api from "../../api";
+import SelectField from "../common/form/selectField";
+import RadioField from "../common/form/radioField";
+import MultiSelectField from "../common/form/multiSelectField";
+import CheckBoxField from "../common/form/checkBoxField";
 
 const RegisterForm = () => {
-    const initialState = {
+    const [professions, setProfessions] = useState();
+    const [qualities, setQualities] = useState();
+    useEffect(() => {
+        api.professions.fetchAll().then((data) => setProfessions(data));
+        api.qualities.fetchAll().then((data) => setQualities(data));
+    }, []);
+
+    const dataInitialState = {
         email: "",
-        password: ""
+        password: "",
+        profession: "",
+        sex: "male",
+        qualities: [],
+        licence: false
     };
-    const [data, setData] = useState(initialState);
+    const [data, setData] = useState(dataInitialState);
     const [errors, setErrors] = useState({});
 
-    const handleChange = ({ target }) => {
+    const handleChange = (name, value) => {
         setData((prevState) => ({
             ...prevState,
-            [target.name]: target.value
+            [name]: value
         }));
     };
 
     const validatorConfig = {
         email: {
             isRequired: {
-                message: "Электронная почта обязательна для заполнения"
+                message: "E-mail обязателен для заполнения"
             },
             isEmail: {
                 message: "Некорректный e-mail"
@@ -39,6 +55,16 @@ const RegisterForm = () => {
             min: {
                 value: 8,
                 message: `Пароль должен состоять минимум из 8 символов`
+            }
+        },
+        profession: {
+            isRequired: {
+                message: "Выбор профессии обязателен"
+            }
+        },
+        licence: {
+            isRequired: {
+                message: "_"
             }
         }
     };
@@ -77,6 +103,45 @@ const RegisterForm = () => {
                 onChange={handleChange}
                 error={errors.password}
             />
+            {professions && (
+                <SelectField
+                    label="Укажите свою профессию"
+                    options={professions}
+                    defaultOption="Выбрать..."
+                    name="profession"
+                    value={data.profession}
+                    onChange={handleChange}
+                    error={errors.profession}
+                />
+            )}
+            <RadioField
+                label="Укажите свой пол"
+                options={[
+                    { name: "Мужской", value: "male" },
+                    { name: "Женский", value: "female" },
+                    { name: "Другой", value: "other" }
+                ]}
+                name="sex"
+                value={data.sex}
+                onChange={handleChange}
+            />
+            {qualities && (
+                <MultiSelectField
+                    options={qualities}
+                    onChange={handleChange}
+                    defaultValue={data.qualities}
+                    name="qualities"
+                    label="Выберите Ваши качества"
+                />
+            )}
+            <CheckBoxField
+                name="licence"
+                value={data.licence}
+                onChange={handleChange}
+                error={errors.licence}
+            >
+                Соглашаюсь с условиями <a>Лицензионного соглашения</a>
+            </CheckBoxField>
             <button
                 disabled={!isValid}
                 className="btn btn-primary w-100 mx-auto"

@@ -5,7 +5,10 @@ const TextField = ({ label, type, name, value, onChange, error, placeholder }) =
     const [showPassword, setShowPassword] = useState(false);
     const getInputClasses = () => {
         if (name === "search") return "form-control";
-        return "form-control is-" + (error ? "invalid" : "valid");
+        return "form-control" + (error ? " is-invalid" : "");
+    };
+    const handleChange = ({ target }) => {
+        onChange(name, target.value);
     };
     const toogleShowPassword = () => {
         setShowPassword((prevState) => !prevState);
@@ -15,13 +18,13 @@ const TextField = ({ label, type, name, value, onChange, error, placeholder }) =
             <label htmlFor={name}>{label}</label>
             <div className="input-group has-validation">
                 <input
+                    // name={name}
                     placeholder={placeholder}
                     className={getInputClasses()}
                     type={showPassword ? "text" : type}
                     id={name}
-                    name={name}
                     value={value}
-                    onChange={onChange}
+                    onChange={handleChange}
                 />
                 {type === "password" && (
                     <button
