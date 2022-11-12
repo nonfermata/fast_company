@@ -59,7 +59,7 @@ const RegisterForm = () => {
         },
         profession: {
             isRequired: {
-                message: "Выбор професии обязателен"
+                message: "Выбор профессии обязателен"
             }
         },
         licence: {
