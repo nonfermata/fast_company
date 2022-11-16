@@ -7,7 +7,7 @@ import api from "../../../api";
 import validator from "../../../utils/validator";
 import PropTypes from "prop-types";
 import Loader from "../../../utils/loader";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const EditUser = ({ userId }) => {
     const [professions, setProfessions] = useState();
@@ -74,12 +74,16 @@ const EditUser = ({ userId }) => {
             ...data,
             profession: {
                 _id: data.profession,
-                name: Object.values(professions).find((item) => item._id === data.profession).name
+                name: Object.values(professions).find(
+                    (item) => item._id === data.profession
+                ).name
             },
             qualities: data.qualities.map((item) => ({
                 _id: item.value,
                 name: item.label,
-                color: Object.values(qualities).find((quality) => quality._id === item.value).color
+                color: Object.values(qualities).find(
+                    (quality) => quality._id === item.value
+                ).color
             }))
         };
         api.users.update(userId, newUser).then();
@@ -89,6 +93,13 @@ const EditUser = ({ userId }) => {
         return (
             <div className="container mt-5">
                 <div className="row">
+                    <div className="flex-row justify-content-start">
+                        <Link to={"/users/" + userId}>
+                            <button className="btn btn-secondary">
+                                <i className="bi bi-caret-left-fill"></i> Назад
+                            </button>
+                        </Link>
+                    </div>
                     <div className="col-md-6 offset-md-3 shadow p-4">
                         <form onSubmit={handleSubmit}>
                             <TextField

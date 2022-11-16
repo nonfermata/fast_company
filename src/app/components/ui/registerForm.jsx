@@ -89,29 +89,29 @@ const RegisterForm = () => {
     return (
         <form onSubmit={handleSubmit}>
             <TextField
-                label="E-mail"
                 name="email"
                 value={data.email}
-                onChange={handleChange}
                 error={errors.email}
+                onChange={handleChange}
+                label="E-mail"
             />
             <TextField
-                label="Пароль"
-                type="password"
                 name="password"
                 value={data.password}
-                onChange={handleChange}
                 error={errors.password}
+                onChange={handleChange}
+                label="Пароль"
+                type="password"
             />
             {professions && (
                 <SelectField
-                    label="Укажите свою профессию"
-                    options={professions}
-                    defaultOption="Выбрать..."
                     name="profession"
                     value={data.profession}
-                    onChange={handleChange}
                     error={errors.profession}
+                    onChange={handleChange}
+                    options={professions}
+                    defaultOption="Выбрать..."
+                    label="Укажите свою профессию"
                 />
             )}
             <RadioField

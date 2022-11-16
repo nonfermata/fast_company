@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import Qualities from "../../ui/qualities";
 import api from "../../../api";
 import Loader from "../../../utils/loader";
 import PropTypes from "prop-types";
+import UserCard from "./userInfo/userCard";
+import QualitiesCard from "./userInfo/qualitiesCard";
+import MeetingsCard from "./userInfo/meetingsCard";
+import Comments from "./comments/comments";
 
 const UserPage = ({ userId }) => {
     const [user, setUser] = useState();
@@ -13,17 +15,22 @@ const UserPage = ({ userId }) => {
 
     if (user) {
         return (
-            <div className="m-4">
-                <h1>{user.name}</h1>
-                <h2>Профессия: {user.profession.name}</h2>
-                <Qualities qualities={user.qualities} />
-                <p>completedMeetings: {user.completedMeetings}</p>
-                <h3>Rate: {user.rate}</h3>
-                <Link to={"/users/" + userId + "/edit"}>
-                    <button className="btn btn-outline-primary mt-2">
-                        Изменить
-                    </button>
-                </Link>
+            <div className="container">
+                <div className="row gutters-sm">
+                    <div className="col-md-4 mb-3">
+                        <UserCard
+                            id={userId}
+                            name={user.name}
+                            profession={user.profession.name}
+                            rate={user.rate}
+                        />
+                        <QualitiesCard qualities={user.qualities} />
+                        <MeetingsCard meetings={user.completedMeetings} />
+                    </div>
+                    <div className="col-md-8">
+                        <Comments userId={userId} />
+                    </div>
+                </div>
             </div>
         );
     }
