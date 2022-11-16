@@ -6,7 +6,7 @@ import Loader from "../../../utils/loader";
 import validator from "../../../utils/validator";
 import PropTypes from "prop-types";
 
-const NewCommentForm = ({ userId, updateCommentsList }) => {
+const AddCommentForm = ({ userId, updateCommentsList }) => {
     const dataInitialState = {
         userId: "",
         content: "",
@@ -99,9 +99,9 @@ const NewCommentForm = ({ userId, updateCommentsList }) => {
     }
     return <Loader />;
 };
-NewCommentForm.propTypes = {
+AddCommentForm.propTypes = {
     userId: PropTypes.string,
     updateCommentsList: PropTypes.func
 };
 
-export default NewCommentForm;
+export default AddCommentForm;

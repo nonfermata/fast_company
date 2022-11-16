@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CommentsList from "./commentsList";
 import PropTypes from "prop-types";
-import NewCommentForm from "./newCommentForm";
+import AddCommentForm from "./addCommentForm";
 import api from "../../../api";
 
 const Comments = ({ userId }) => {
@@ -20,7 +20,7 @@ const Comments = ({ userId }) => {
         <>
             <div className="card mb-2">
                 <div className="card-body">
-                    <NewCommentForm
+                    <AddCommentForm
                         userId={userId}
                         updateCommentsList={updateCommentsList}
                     />
