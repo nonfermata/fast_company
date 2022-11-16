@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CommentsList from "./commentsList";
 import PropTypes from "prop-types";
-import NewCommentForm from "../newCommentForm";
+import NewCommentForm from "./newCommentForm";
 import api from "../../../api";
 
 const Comments = ({ userId }) => {

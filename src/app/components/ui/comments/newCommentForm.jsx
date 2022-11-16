@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import SelectField from "../common/form/selectField";
-import Textarea from "../common/form/textarea";
-import api from "../../api";
-import Loader from "../../utils/loader";
-import validator from "../../utils/validator";
+import SelectField from "../../common/form/selectField";
+import Textarea from "../../common/form/textarea";
+import api from "../../../api";
+import Loader from "../../../utils/loader";
+import validator from "../../../utils/validator";
 import PropTypes from "prop-types";
 
 const NewCommentForm = ({ userId, updateCommentsList }) => {
