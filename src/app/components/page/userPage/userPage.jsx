@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import api from "../../../api";
 import Loader from "../../../utils/loader";
 import PropTypes from "prop-types";
-import UserCard from "./userInfo/userCard";
-import QualitiesCard from "./userInfo/qualitiesCard";
-import MeetingsCard from "./userInfo/meetingsCard";
-import Comments from "./comments/comments";
+import UserCard from "../../ui/userCards/userCard";
+import QualitiesCard from "../../ui/userCards/qualitiesCard";
+import MeetingsCard from "../../ui/userCards/meetingsCard";
+import Comments from "../../ui/comments/comments";
 
 const UserPage = ({ userId }) => {
     const [user, setUser] = useState();

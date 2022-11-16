@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import Ava from "../ava";
-import api from "../../../../api";
-import Loader from "../../../../utils/loader";
+import Avatar from "../avatar";
+import api from "../../../api";
+import Loader from "../../../utils/loader";
 
 const Comment = ({ userId, publishedTime, content, onDelete, commentId }) => {
     const [userName, setUserName] = useState();
@@ -15,7 +15,7 @@ const Comment = ({ userId, publishedTime, content, onDelete, commentId }) => {
                 <div className="row">
                     <div className="col">
                         <div className="d-flex flex-start ">
-                            <Ava
+                            <Avatar
                                 width="65"
                                 height="65"
                             />

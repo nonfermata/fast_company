@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import CommentsList from "./commentsList";
 import PropTypes from "prop-types";
-import NewCommentForm from "../../../ui/newCommentForm";
-import api from "../../../../api";
+import NewCommentForm from "../newCommentForm";
+import api from "../../../api";
 
 const Comments = ({ userId }) => {
     const [updateStatus, setUpdateStatus] = useState(true);

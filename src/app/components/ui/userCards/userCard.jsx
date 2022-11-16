@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import Ava from "../ava";
+import Avatar from "../avatar";
 
 const UserCard = ({ id, name, profession, rate }) => {
     return (
@@ -13,7 +13,7 @@ const UserCard = ({ id, name, profession, rate }) => {
                     </button>
                 </Link>
                 <div className="d-flex flex-column align-items-center text-center position-relative">
-                    <Ava
+                    <Avatar
                         width="150"
                         height="150"
                     />

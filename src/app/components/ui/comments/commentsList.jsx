@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import api from "../../../../api";
+import api from "../../../api";
 import Comment from "./comment";
 import _ from "lodash";
-import getPublishedTime from "../../../../utils/getPublishedTime";
+import getPublishedTime from "../../../utils/getPublishedTime";
 
 const CommentsList = ({ comments, updateCommentsList }) => {
     const handleDeleteComment = (id) => {

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Ava = ({ width, height }) => {
+const Avatar = ({ width, height }) => {
     return (
         <img
             src={`https://avatars.dicebear.com/api/avataaars/${(
@@ -16,9 +16,9 @@ const Ava = ({ width, height }) => {
         />
     );
 };
-Ava.propTypes = {
+Avatar.propTypes = {
     width: PropTypes.string,
     height: PropTypes.string
 };
 
-export default Ava;
+export default Avatar;
