@@ -2,9 +2,12 @@ const getPublishedTime = (ms) => {
     const publishedDate = new Date(Number(ms));
     const currentDate = new Date();
     const differenceTime = Date.now() - Number(ms);
-    if (differenceTime <= 1859999) {
-        let minutes = Math.floor(differenceTime / 60000);
-        if (minutes === 0) minutes = 1;
+    if (differenceTime < 10000) {
+        return "только что";
+    } else if (differenceTime < 60000) {
+        return "меньше минуты назад";
+    } else if (differenceTime <= 1859999) {
+        const minutes = Math.floor(differenceTime / 60000);
         let minutesString = "минут";
         if (minutes % 10 === 1 && Math.floor((minutes / 10) % 10) !== 1) {
             minutesString = "минута";
@@ -15,9 +18,18 @@ const getPublishedTime = (ms) => {
             minutesString = "минуты";
         }
         return minutes + " " + minutesString + " назад";
-    } else if (differenceTime < 86400000 && publishedDate.getMinutes() > currentDate.getMinutes()) {
-        const hours = publishedDate.getHours() < 10 ? "0" + publishedDate.getHours() : publishedDate.getHours();
-        const minutes = publishedDate.getMinutes() < 10 ? "0" + publishedDate.getMinutes() : publishedDate.getMinutes();
+    } else if (
+        differenceTime < 86400000 &&
+        publishedDate.getMinutes() > currentDate.getMinutes()
+    ) {
+        const hours =
+            publishedDate.getHours() < 10
+                ? "0" + publishedDate.getHours()
+                : publishedDate.getHours();
+        const minutes =
+            publishedDate.getMinutes() < 10
+                ? "0" + publishedDate.getMinutes()
+                : publishedDate.getMinutes();
         return hours + ":" + minutes;
     } else if (
         publishedDate.getFullYear() === currentDate.getFullYear() ||
