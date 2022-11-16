@@ -7,7 +7,8 @@ import api from "../../../api";
 import validator from "../../../utils/validator";
 import PropTypes from "prop-types";
 import Loader from "../../../utils/loader";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import BackButton from "../../common/backButton";
 
 const EditUser = ({ userId }) => {
     const [professions, setProfessions] = useState();
@@ -94,11 +95,7 @@ const EditUser = ({ userId }) => {
             <div className="container mt-5">
                 <div className="row">
                     <div className="flex-row justify-content-start">
-                        <Link to={"/users/" + userId}>
-                            <button className="btn btn-secondary">
-                                <i className="bi bi-caret-left-fill"></i> Назад
-                            </button>
-                        </Link>
+                        <BackButton />
                     </div>
                     <div className="col-md-6 offset-md-3 shadow p-4">
                         <form onSubmit={handleSubmit}>

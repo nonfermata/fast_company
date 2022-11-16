@@ -10,7 +10,7 @@ const CommentsList = ({ comments, updateCommentsList }) => {
         api.comments.remove(id).then();
         updateCommentsList();
     };
-    const orderedComments = _.orderBy(comments, ["created_at"], ["asc"]);
+    const orderedComments = _.orderBy(comments, ["created_at"], ["desc"]);
     return (
         <>
             <h2>Comments</h2>
