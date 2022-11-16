@@ -23,7 +23,7 @@ const Comment = ({ userId, publishedTime, content, onDelete, commentId }) => {
                                     <p className="mb-1 ">
                                         {userName}
                                         <span className="small">
-                                            {" " + publishedTime}
+                                            {" – " + publishedTime}
                                         </span>
                                     </p>
                                     <button
