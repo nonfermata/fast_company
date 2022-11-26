@@ -6,7 +6,6 @@ const Pagination = ({ count, pageSize, pageChange, currentPage }) => {
     const pagesCount = Math.ceil(count / pageSize);
     if (pagesCount === 1) return null;
     const pages = _.range(1, pagesCount + 1);
-
     return (
         <nav
             style={{
@@ -20,7 +19,7 @@ const Pagination = ({ count, pageSize, pageChange, currentPage }) => {
                     <li
                         key={"page_" + number}
                         className={
-                            "page-item " +
+                            "pages-item " +
                             (currentPage === number ? "active" : "")
                         }
                     >

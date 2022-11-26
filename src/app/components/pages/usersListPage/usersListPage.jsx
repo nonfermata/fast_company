@@ -6,25 +6,29 @@ import GroupList from "../../common/groupList";
 import SearchStatus from "../../ui/searchStatus";
 import UsersTable from "../../ui/usersTable";
 import _ from "lodash";
-import api from "../../../api";
 import Loader from "../../../utils/loader";
 import TextField from "../../common/form/textField";
-// import { deletedUsersIds, addDeletedUserId } from "../../../api/deletedUsersIds";
+import { useUsers } from "../../../hooks/useUsers";
+import { useProfessions } from "../../../hooks/useProfessions";
 
 const UsersListPage = () => {
-    const [users, setUsers] = useState();
-    useEffect(() => {
-        api.users.fetchAll().then((data) => setUsers(data));
-    }, []);
-
-    const [professions, setProfessions] = useState();
-    useEffect(() => {
-        api.professions.fetchAll().then((data) => setProfessions(data));
-    }, []);
-
-    const pageSize = 4;
     const [currentPage, setCurrentPage] = useState(1);
+    const [searchData, setSearchData] = useState("");
     const [selectedProf, setSelectedProf] = useState();
+    const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
+    const pageSize = 4;
+
+    const { professions } = useProfessions();
+
+    const { users } = useUsers();
+
+    const handleDelete = (id) => {
+        // if (users.length - 1 === (currentPage - 1) * pageSize) {
+        //     setCurrentPage(currentPage - 1);
+        // }
+        // setUsers((users) => users.filter((user) => user._id !== id));
+        console.log(id);
+    };
 
     const handleProfessionSelect = (item) => {
         setCurrentPage(1);
@@ -40,31 +44,19 @@ const UsersListPage = () => {
     };
 
     const handleToggleBookMark = (id) => {
-        setUsers((users) =>
-            users.map((user) => {
-                if (user._id === id) {
-                    return { ...user, bookmark: !user.bookmark };
-                }
-                return user;
-            })
-        );
+        const newArr = users.map((user) => {
+            if (user._id === id) {
+                return { ...user, bookmark: !user.bookmark };
+            }
+            return user;
+        });
+        // setUsers(newArr);
+        console.log(newArr);
     };
-
-    const handleDelete = (id) => {
-        if (users.length - 1 === (currentPage - 1) * pageSize) {
-            setCurrentPage(currentPage - 1);
-        }
-        setUsers((users) => users.filter((user) => user._id !== id));
-        // addDeletedUserId(id);
-    };
-
-    const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
 
     const handleSort = (item) => {
         setSortBy(item);
     };
-
-    const [searchData, setSearchData] = useState("");
 
     const handleSearchChange = (name, value) => {
         setSearchData(value);
@@ -78,16 +70,7 @@ const UsersListPage = () => {
         if (searchData) setSelectedProf();
     }, [searchData]);
 
-    // const [moveDeleted, setMoveDeleted] = useState(true);
-
     if (users) {
-        // if (moveDeleted) {
-        //     deletedUsersIds.forEach((id) => {
-        //         setUsers((users) => users.filter((user) => user._id !== id));
-        //     });
-        //     setMoveDeleted(false);
-        // }
-
         const filteredUsers = selectedProf
             ? users.filter(
                   (user) =>

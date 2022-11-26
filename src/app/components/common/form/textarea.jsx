@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 const Textarea = ({ rows, label, name, onChange, error, value }) => {
+    const [isFirstRender, setIsFirstRender] = useState(true);
+
     const getInputClasses = () => {
-        return "form-control" + (error ? " is-invalid" : "");
+        return "form-control" + (error && !isFirstRender ? " is-invalid" : "");
     };
     const handleChange = ({ target }) => {
+        if (isFirstRender) setIsFirstRender(false);
         onChange(name, target.value);
     };
     return (
@@ -24,7 +27,9 @@ const Textarea = ({ rows, label, name, onChange, error, value }) => {
                 rows={rows}
                 onChange={handleChange}
             />
-            {error && <div className="invalid-feedback">{error}</div>}
+            {error && !isFirstRender && (
+                <div className="invalid-feedback">{error}</div>
+            )}
         </div>
     );
 };

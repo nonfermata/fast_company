@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 const SelectField = ({
@@ -10,7 +10,9 @@ const SelectField = ({
     onChange,
     error
 }) => {
+    const [isFirstRender, setIsFirstRender] = useState(true);
     const handleChange = ({ target }) => {
+        if (isFirstRender) setIsFirstRender(false);
         onChange(name, target.value);
     };
     const getSelectClasses = () => {
@@ -48,7 +50,9 @@ const SelectField = ({
                     </option>
                 ))}
             </select>
-            {error && <div className="invalid-feedback">{error}</div>}
+            {error && !isFirstRender && (
+                <div className="invalid-feedback">{error}</div>
+            )}
         </div>
     );
 };

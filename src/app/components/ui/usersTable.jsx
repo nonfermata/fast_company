@@ -4,6 +4,7 @@ import Bookmark from "../common/bookmark";
 import DeleteButton from "../common/deleteButton";
 import Qualities from "../ui/qualities";
 import Table from "../common/table";
+import Profession from "./profession";
 
 const UsersTable = ({
     users,
@@ -18,7 +19,11 @@ const UsersTable = ({
             name: "Качества",
             component: (user) => <Qualities qualities={user.qualities} />
         },
-        profession: { path: "profession.name", name: "Профессия" },
+        profession: {
+            path: "profession.name",
+            name: "Профессия",
+            component: (user) => <Profession id={user.profession} />
+        },
         completedMeetings: {
             path: "completedMeetings",
             name: "Встретился, раз"

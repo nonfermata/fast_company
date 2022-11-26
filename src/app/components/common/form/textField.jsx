@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 const TextField = ({ label, type, name, value, onChange, error, placeholder }) => {
+    const [isFirstRender, setIsFirstRender] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
     const getInputClasses = () => {
         if (name === "search") return "form-control";
-        return "form-control" + (error ? " is-invalid" : "");
+        return "form-control" + (error && !isFirstRender ? " is-invalid" : "");
     };
     const handleChange = ({ target }) => {
+        if (isFirstRender) setIsFirstRender(false);
         onChange(name, target.value);
     };
     const toogleShowPassword = () => {
@@ -39,7 +41,7 @@ const TextField = ({ label, type, name, value, onChange, error, placeholder }) =
                         ></i>
                     </button>
                 )}
-                {error && <div className="invalid-feedback">{error}</div>}
+                {error && !isFirstRender && <div className="invalid-feedback">{error}</div>}
             </div>
         </div>
     );

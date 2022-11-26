@@ -14,13 +14,16 @@ const AddCommentForm = ({ userId, updateCommentsList }) => {
     };
     const [data, setData] = useState(dataInitialState);
     const [errors, setErrors] = useState({});
-
-    const handleChange = (name, value) => {
-        setData((prevState) => ({
-            ...prevState,
-            [name]: value
-        }));
-    };
+    const [users, setUsers] = useState();
+    useEffect(() => {
+        api.users
+            .fetchAll()
+            .then((data) =>
+                setUsers(
+                    data.map((user) => ({ name: user.name, _id: user._id }))
+                )
+            );
+    }, []);
 
     const validatorConfig = {
         userId: {
@@ -35,16 +38,23 @@ const AddCommentForm = ({ userId, updateCommentsList }) => {
         }
     };
 
-    useEffect(() => {
-        validate();
-    }, [data]);
-
     const validate = () => {
         const errors = validator(data, validatorConfig);
         setErrors(errors);
         return Object.keys(errors).length === 0;
     };
     const isValid = Object.keys(errors).length === 0;
+
+    useEffect(() => {
+        validate();
+    }, [data]);
+
+    const handleChange = (name, value) => {
+        setData((prevState) => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -54,16 +64,6 @@ const AddCommentForm = ({ userId, updateCommentsList }) => {
         setData(dataInitialState);
     };
 
-    const [users, setUsers] = useState();
-    useEffect(() => {
-        api.users
-            .fetchAll()
-            .then((data) =>
-                setUsers(
-                    data.map((user) => ({ name: user.name, _id: user._id }))
-                )
-            );
-    }, []);
     if (users) {
         return (
             <form onSubmit={handleSubmit}>

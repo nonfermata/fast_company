@@ -7,7 +7,7 @@ const UserCard = ({ id, name, profession, rate }) => {
     return (
         <div className="card mb-3">
             <div className="card-body">
-                <Link to={"/users/" + id + "/edit"}>
+                <Link to={"/users/" + id + "/editUser"}>
                     <button className="position-absolute top-0 end-0 btn btn-light btn-sm">
                         <i className="bi bi-gear"></i>
                     </button>
