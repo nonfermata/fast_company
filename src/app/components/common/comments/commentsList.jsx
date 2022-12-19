@@ -1,14 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import api from "../../../api";
 import Comment from "./comment";
 import _ from "lodash";
 import getPublishedTime from "../../../utils/getPublishedTime";
 
-const CommentsList = ({ comments, updateCommentsList }) => {
+const CommentsList = ({ comments }) => {
     const handleDeleteComment = (id) => {
-        api.comments.remove(id).then();
-        updateCommentsList();
+        // api.comments.remove(id).then();
     };
     const orderedComments = _.orderBy(comments, ["created_at"], ["desc"]);
     return (
@@ -32,8 +30,7 @@ const CommentsList = ({ comments, updateCommentsList }) => {
     );
 };
 CommentsList.propTypes = {
-    comments: PropTypes.arrayOf(PropTypes.object),
-    updateCommentsList: PropTypes.func
+    comments: PropTypes.arrayOf(PropTypes.object)
 };
 
 export default CommentsList;

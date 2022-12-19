@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import Avatar from "../avatar";
-import api from "../../../api";
+import Avatar from "../../ui/avatar";
 import Loader from "../../../utils/loader";
+import { useUsers } from "../../../hooks/useUsers";
 
 const Comment = ({ userId, publishedTime, content, onDelete, commentId }) => {
-    const [userName, setUserName] = useState();
-    useEffect(() => {
-        api.users.getById(userId).then((user) => setUserName(user.name));
-    }, []);
-    if (userName) {
+    const { getUserById } = useUsers();
+    const user = getUserById(userId);
+    if (user) {
         return (
             <div className="bg-light card-body  mb-3">
                 <div className="row">
@@ -18,12 +16,13 @@ const Comment = ({ userId, publishedTime, content, onDelete, commentId }) => {
                             <Avatar
                                 width="65"
                                 height="65"
+                                image={user.image}
                             />
                             <div className="flex-grow-1 flex-shrink-1">
                                 <div className="mb-4">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <p className="mb-1 ">
-                                            {userName}
+                                            {user.name}
                                             <span className="small">
                                                 {" – " + publishedTime}
                                             </span>

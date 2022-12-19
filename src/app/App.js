@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "./components/ui/navBar";
-import { Route } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import Main from "./layouts/main";
 import Login from "./layouts/login";
 import Users from "./layouts/users";
@@ -9,16 +9,17 @@ import { ToastContainer } from "react-toastify";
 import { ProfessionProvider } from "./hooks/useProfessions";
 import { QualityProvider } from "./hooks/useQualities";
 import AuthProvider from "./hooks/useAuth";
-import LoginProvider from "./hooks/useLogin";
+import ProtectedRoute from "./components/common/protectedRoute";
+import Logout from "./layouts/logout";
 
 const App = () => {
     return (
         <div className="mainContainer">
-            <LoginProvider>
-                <AuthProvider>
-                    <NavBar />
-                    <QualityProvider>
-                        <ProfessionProvider>
+            <AuthProvider>
+                <NavBar />
+                <QualityProvider>
+                    <ProfessionProvider>
+                        <Switch>
                             <Route
                                 exact
                                 path="/"
@@ -29,13 +30,18 @@ const App = () => {
                                 component={Login}
                             />
                             <Route
+                                path="/logout"
+                                component={Logout}
+                            />
+                            <ProtectedRoute
                                 path="/users/:userId?/:edit?"
                                 component={Users}
                             />
-                        </ProfessionProvider>
-                    </QualityProvider>
-                </AuthProvider>
-            </LoginProvider>
+                            <Redirect to="/" />
+                        </Switch>
+                    </ProfessionProvider>
+                </QualityProvider>
+            </AuthProvider>
             <ToastContainer />
         </div>
     );

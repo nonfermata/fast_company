@@ -16,6 +16,7 @@ const RegisterForm = () => {
     const { qualities } = useQualities();
     const { signUp } = useAuth();
     const dataInitialState = {
+        name: "",
         email: "",
         password: "",
         profession: "",
@@ -34,6 +35,16 @@ const RegisterForm = () => {
     };
 
     const validatorConfig = {
+        name: {
+            isRequired: {
+                message: "Имя обязательно для заполнения"
+            },
+            min: {
+                value: 3,
+                message: "Имя должно состоять минимум из 3-х символов"
+            }
+        },
+
         email: {
             isRequired: {
                 message: "E-mail обязателен для заполнения"
@@ -97,6 +108,13 @@ const RegisterForm = () => {
 
     return (
         <form onSubmit={handleSubmit}>
+            <TextField
+                name="name"
+                value={data.name}
+                error={errors.name}
+                onChange={handleChange}
+                label="Имя"
+            />
             <TextField
                 name="email"
                 value={data.email}

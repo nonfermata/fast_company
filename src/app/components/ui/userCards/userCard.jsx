@@ -2,18 +2,23 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Avatar from "../avatar";
+import { useAuth } from "../../../hooks/useAuth";
 
-const UserCard = ({ id, name, profession, rate }) => {
+const UserCard = ({ id, name, profession, rate, image }) => {
+    const { currentUser } = useAuth();
     return (
         <div className="card mb-3">
             <div className="card-body">
-                <Link to={"/users/" + id + "/editUser"}>
-                    <button className="position-absolute top-0 end-0 btn btn-light btn-sm">
-                        <i className="bi bi-gear"></i>
-                    </button>
-                </Link>
+                {currentUser._id === id && (
+                    <Link to={"/users/" + id + "/editUser"}>
+                        <button className="position-absolute top-0 end-0 btn btn-light btn-sm">
+                            <i className="bi bi-gear"></i>
+                        </button>
+                    </Link>
+                )}
                 <div className="d-flex flex-column align-items-center text-center position-relative">
                     <Avatar
+                        image={image}
                         width="150"
                         height="150"
                     />
@@ -41,7 +46,8 @@ UserCard.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
     profession: PropTypes.string,
-    rate: PropTypes.number
+    rate: PropTypes.number,
+    image: PropTypes.string
 };
 
 export default UserCard;

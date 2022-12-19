@@ -3,12 +3,11 @@ import TextField from "../common/form/textField";
 import validator from "../../utils/validator";
 import CheckBoxField from "../common/form/checkBoxField";
 import { useHistory } from "react-router-dom";
-import { useLogin } from "../../hooks/useLogin";
-// import * as yup from "yup";
+import { useAuth } from "../../hooks/useAuth";
 
 const LoginForm = () => {
     const history = useHistory();
-    const { signIn } = useLogin();
+    const { signIn } = useAuth();
     const initialState = {
         email: "",
         password: "",
@@ -16,56 +15,25 @@ const LoginForm = () => {
     };
     const [data, setData] = useState(initialState);
     const [errors, setErrors] = useState({});
-
-    // const validateScheme = yup.object().shape({
-    //     password: yup
-    //         .string()
-    //         .required("Пароль обязателен для заполнения")
-    //         .matches(
-    //             /(?=.*[A-Z])/,
-    //             "Пароль должен содержать хотя бы одну заглавную букву"
-    //         )
-    //         .matches(/(?=.*[0-9])/, "Пароль должен содержать хотя бы одну цифру")
-    //         .matches(
-    //             /(?=.*[!@#$%^&*])/,
-    //             "Пароль должен содержать хотя бы один из специальных символов !@#$%^&*"
-    //         )
-    //         .matches(/(?=.{8,})/, "Пароль должен состоять минимум из 8 символов"),
-    //     email: yup
-    //         .string()
-    //         .required("E-mail обязателен для заполнения")
-    //         .email("Некорректный e-mail")
-    // });
+    const [enterError, setEnterError] = useState(null);
 
     const handleChange = (name, value) => {
         setData((prevState) => ({
             ...prevState,
             [name]: value
         }));
+        setEnterError(null);
     };
 
     const validatorConfig = {
         email: {
             isRequired: {
                 message: "E-mail обязателен для заполнения"
-            },
-            isEmail: {
-                message: "Некорректный e-mail"
             }
         },
         password: {
             isRequired: {
                 message: "Пароль обязателен для заполнения"
-            },
-            isCapitalSymbol: {
-                message: "Пароль должен содержать хотя бы одну заглавную букву"
-            },
-            isDigit: {
-                message: "Пароль должен содержать хотя бы одну цифру"
-            },
-            min: {
-                value: 8,
-                message: `Пароль должен состоять минимум из 8 символов`
             }
         }
     };
@@ -77,10 +45,6 @@ const LoginForm = () => {
     const validate = () => {
         const errors = validator(data, validatorConfig);
         setErrors(errors);
-        // validateScheme
-        //     .validate(data)
-        //     .then(() => setErrors({}))
-        //     .catch((err) => setErrors({ [err.path]: err.message }));
         return Object.keys(errors).length === 0;
     };
     const isValid = Object.keys(errors).length === 0;
@@ -90,9 +54,13 @@ const LoginForm = () => {
         if (!validate()) return;
         try {
             await signIn(data);
-            history.push("/");
+            history.push(
+                history.location.state
+                    ? history.location.state.from.pathname
+                    : "/"
+            );
         } catch (e) {
-            setErrors(e);
+            setEnterError(e.message);
         }
     };
 
@@ -120,8 +88,9 @@ const LoginForm = () => {
             >
                 Оставаться в системе
             </CheckBoxField>
+            {enterError && <p className="text-danger">{enterError}</p>}
             <button
-                disabled={!isValid}
+                disabled={!isValid || enterError}
                 className="btn btn-primary w-100 mx-auto"
             >
                 Войти

@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Bookmark from "../common/bookmark";
-import DeleteButton from "../common/deleteButton";
 import Qualities from "../ui/qualities";
 import Table from "../common/table";
 import Profession from "./profession";
@@ -10,8 +9,7 @@ const UsersTable = ({
     users,
     onSort,
     selectedSort,
-    onToggleBookMark,
-    onDelete
+    onToggleBookMark
 }) => {
     const columns = {
         name: { path: "name", name: "Имя" },
@@ -39,11 +37,6 @@ const UsersTable = ({
                     onToggleBookMark={onToggleBookMark}
                 />
             )
-        },
-        delete: {
-            component: (user) => (
-                <DeleteButton onDelete={() => onDelete(user._id)} />
-            )
         }
     };
     return (
@@ -59,8 +52,7 @@ UsersTable.propTypes = {
     users: PropTypes.array.isRequired,
     onSort: PropTypes.func.isRequired,
     selectedSort: PropTypes.object.isRequired,
-    onToggleBookMark: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired
+    onToggleBookMark: PropTypes.func.isRequired
 };
 
 export default UsersTable;
