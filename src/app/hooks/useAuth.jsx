@@ -87,7 +87,6 @@ const AuthProvider = ({ children }) => {
                 password,
                 returnSecureToken: true
             });
-            console.log(data);
             setTokens(data);
             await createUser({
                 _id: data.localId,
@@ -99,6 +98,7 @@ const AuthProvider = ({ children }) => {
                     .substring(7)}.svg`,
                 rate: randomInt(1, 5),
                 completedMeetings: randomInt(0, 200),
+                bookmark: false,
                 ...rest
             });
         } catch (e) {
@@ -114,10 +114,10 @@ const AuthProvider = ({ children }) => {
             }
         }
     }
+
     async function createUser(data) {
         try {
             const { content } = await userService.create(data);
-            console.log(content);
             setUser(content);
         } catch (e) {
             errorCatcher(e);
@@ -129,7 +129,7 @@ const AuthProvider = ({ children }) => {
         setError(message);
     }
     return (
-        <AuthContext.Provider value={{ signIn, signUp, logOut, currentUser }}>
+        <AuthContext.Provider value={{ signIn, signUp, logOut, updateUser: createUser, currentUser }}>
             {!isLoading ? children : <Loader />}
         </AuthContext.Provider>
     );

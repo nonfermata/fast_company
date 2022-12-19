@@ -10,7 +10,7 @@ const UserCard = ({ id, name, profession, rate, image }) => {
         <div className="card mb-3">
             <div className="card-body">
                 {currentUser._id === id && (
-                    <Link to={"/users/" + id + "/editUser"}>
+                    <Link to={"/users/" + id + "/edit"}>
                         <button className="position-absolute top-0 end-0 btn btn-light btn-sm">
                             <i className="bi bi-gear"></i>
                         </button>

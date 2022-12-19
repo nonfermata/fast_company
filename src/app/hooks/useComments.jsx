@@ -20,11 +20,23 @@ export const CommentsProvider = ({ children }) => {
     useEffect(() => {
         getComments();
     }, [userId]);
+
+    async function deleteComment(id) {
+        try {
+            const { content } = await commentService.deleteComment(id);
+            if (content === null) {
+                setComments((prevState) =>
+                    prevState.filter((c) => c._id !== id)
+                );
+            }
+        } catch (e) {
+            errorCatcher(e);
+        }
+    }
     async function getComments() {
         try {
             const { content } = await commentService.getComments(userId);
             setComments(content);
-            console.log(content);
         } catch (e) {
             errorCatcher(e);
         } finally {
@@ -60,7 +72,7 @@ export const CommentsProvider = ({ children }) => {
 
     return (
         <CommentsContext.Provider
-            value={{ comments, createComment, isLoading }}
+            value={{ comments, createComment, deleteComment, isLoading }}
         >
             {children}
         </CommentsContext.Provider>

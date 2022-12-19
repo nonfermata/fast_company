@@ -1,38 +1,33 @@
+/* eslint-disable indent */
 import React, { useEffect, useState } from "react";
 import TextField from "../../common/form/textField";
 import SelectField from "../../common/form/selectField";
 import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
-import api from "../../../api";
 import validator from "../../../utils/validator";
-import PropTypes from "prop-types";
 import Loader from "../../../utils/loader";
 import { useHistory } from "react-router-dom";
 import BackButton from "../../common/backButton";
+import { useProfessions } from "../../../hooks/useProfessions";
+import { useQualities } from "../../../hooks/useQualities";
+import { useAuth } from "../../../hooks/useAuth";
 
-const EditUser = ({ userId }) => {
-    const [professions, setProfessions] = useState();
-    const [qualities, setQualities] = useState();
+const EditUser = () => {
+    const { currentUser: user, updateUser } = useAuth();
+    const { professions, isLoading: isLoadingProfessions } = useProfessions();
+    const { qualities, isLoading: isLoadingQualities } = useQualities();
     const [data, setData] = useState();
     const [errors, setErrors] = useState({});
-    const history = useHistory();
-
     useEffect(() => {
-        api.users.getById(userId).then((user) =>
-            setData({
-                name: user.name,
-                email: user.email,
-                profession: user.profession._id,
-                sex: user.sex,
-                qualities: user.qualities.map((item) => ({
-                    value: item._id,
-                    label: item.name
-                }))
-            })
-        );
-        api.professions.fetchAll().then((data) => setProfessions(data));
-        api.qualities.fetchAll().then((data) => setQualities(data));
-    }, []);
+        const userQualities = !isLoadingQualities
+            ? user.qualities
+                  .map((item) => qualities.find((q) => q._id === item))
+                  .map((item) => ({ label: item.name, value: item._id }))
+            : [];
+        setData({ ...user, qualities: userQualities });
+    }, [isLoadingQualities]);
+
+    const history = useHistory();
 
     const validatorConfig = {
         name: {
@@ -73,24 +68,12 @@ const EditUser = ({ userId }) => {
         if (!validate()) return;
         const newUser = {
             ...data,
-            profession: {
-                _id: data.profession,
-                name: Object.values(professions).find(
-                    (item) => item._id === data.profession
-                ).name
-            },
-            qualities: data.qualities.map((item) => ({
-                _id: item.value,
-                name: item.label,
-                color: Object.values(qualities).find(
-                    (quality) => quality._id === item.value
-                ).color
-            }))
+            qualities: data.qualities.map((item) => item.value)
         };
-        api.users.update(userId, newUser).then();
-        history.push(`/users/${userId}`);
+        updateUser(newUser);
+        history.push(`/users/${user._id}`);
     };
-    if (data) {
+    if (data && !isLoadingProfessions && !isLoadingQualities) {
         return (
             <div className="container mt-5">
                 <div className="row">
@@ -113,17 +96,15 @@ const EditUser = ({ userId }) => {
                                 onChange={handleChange}
                                 error={errors.email}
                             />
-                            {professions && (
-                                <SelectField
-                                    label="Укажите профессию"
-                                    options={professions}
-                                    defaultOption="Выбрать..."
-                                    name="profession"
-                                    value={data.profession}
-                                    onChange={handleChange}
-                                    error={errors.profession}
-                                />
-                            )}
+                            <SelectField
+                                label="Укажите профессию"
+                                options={professions}
+                                defaultOption="Выбрать..."
+                                name="profession"
+                                value={data.profession}
+                                onChange={handleChange}
+                                error={errors.profession}
+                            />
                             <RadioField
                                 label="Укажите пол"
                                 options={[
@@ -135,15 +116,13 @@ const EditUser = ({ userId }) => {
                                 value={data.sex}
                                 onChange={handleChange}
                             />
-                            {qualities && (
-                                <MultiSelectField
-                                    options={qualities}
-                                    onChange={handleChange}
-                                    defaultValue={data.qualities}
-                                    name="qualities"
-                                    label="Выберите качества"
-                                />
-                            )}
+                            <MultiSelectField
+                                options={qualities}
+                                onChange={handleChange}
+                                defaultValue={data.qualities}
+                                name="qualities"
+                                label="Выберите качества"
+                            />
                             <button
                                 disabled={!isValid}
                                 className="btn btn-primary w-100 mx-auto"
@@ -157,9 +136,6 @@ const EditUser = ({ userId }) => {
         );
     }
     return <Loader />;
-};
-EditUser.propTypes = {
-    userId: PropTypes.string
 };
 
 export default EditUser;

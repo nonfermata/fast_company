@@ -4,7 +4,11 @@ import AddCommentForm from "./addCommentForm";
 import { useComments } from "../../../hooks/useComments";
 
 const Comments = () => {
-    const { createComment, comments } = useComments();
+    const { createComment, comments, deleteComment } = useComments();
+
+    const handleDeleteComment = (id) => {
+        deleteComment(id);
+    };
 
     const handleSubmit = (data) => {
         createComment(data);
@@ -19,7 +23,10 @@ const Comments = () => {
             {comments && comments.length !== 0 && (
                 <div className="card mb-3">
                     <div className="card-body">
-                        <CommentsList comments={comments} />
+                        <CommentsList
+                            comments={comments}
+                            onDeleteComment={handleDeleteComment}
+                        />
                     </div>
                 </div>
             )}

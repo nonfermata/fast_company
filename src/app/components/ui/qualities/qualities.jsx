@@ -2,7 +2,6 @@ import React from "react";
 import Quality from "./quality";
 import PropTypes from "prop-types";
 import { useQualities } from "../../../hooks/useQualities";
-import Loader from "../../../utils/loader";
 
 const Qualities = ({ qualities: userQualitiesId }) => {
     const { qualities, isLoading } = useQualities();
@@ -21,7 +20,7 @@ const Qualities = ({ qualities: userQualitiesId }) => {
             </>
         );
     }
-    return <Loader />;
+    return "Loading...";
 };
 Qualities.propTypes = {
     qualities: PropTypes.array

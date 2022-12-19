@@ -17,6 +17,10 @@ const commentService = {
             payload
         );
         return data;
+    },
+    deleteComment: async (id) => {
+        const { data } = await httpService.delete(commentEndpoint + id);
+        return data;
     }
 };
 

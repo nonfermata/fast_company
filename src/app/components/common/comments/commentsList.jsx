@@ -4,10 +4,7 @@ import Comment from "./comment";
 import _ from "lodash";
 import getPublishedTime from "../../../utils/getPublishedTime";
 
-const CommentsList = ({ comments }) => {
-    const handleDeleteComment = (id) => {
-        // api.comments.remove(id).then();
-    };
+const CommentsList = ({ comments, onDeleteComment }) => {
     const orderedComments = _.orderBy(comments, ["created_at"], ["desc"]);
     return (
         <>
@@ -22,7 +19,7 @@ const CommentsList = ({ comments }) => {
                         userId={comment.userId}
                         commentId={comment._id}
                         content={comment.content}
-                        onDelete={handleDeleteComment}
+                        onDelete={onDeleteComment}
                     />
                 );
             })}
@@ -30,7 +27,8 @@ const CommentsList = ({ comments }) => {
     );
 };
 CommentsList.propTypes = {
-    comments: PropTypes.arrayOf(PropTypes.object)
+    comments: PropTypes.arrayOf(PropTypes.object),
+    onDeleteComment: PropTypes.func
 };
 
 export default CommentsList;
