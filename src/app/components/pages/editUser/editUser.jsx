@@ -8,24 +8,33 @@ import validator from "../../../utils/validator";
 import Loader from "../../../utils/loader";
 import { useHistory } from "react-router-dom";
 import BackButton from "../../common/backButton";
-import { useProfessions } from "../../../hooks/useProfessions";
-import { useQualities } from "../../../hooks/useQualities";
 import { useAuth } from "../../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import {
+    getQualities,
+    getQualitiesLoadingStatus
+} from "../../../../store/qualities";
+import {
+    getProfessions,
+    getProfessionsLoadingStatus
+} from "../../../../store/professions";
 
 const EditUser = () => {
-    const { currentUser: user, updateUser } = useAuth();
-    const { professions, isLoading: isLoadingProfessions } = useProfessions();
-    const { qualities, isLoading: isLoadingQualities } = useQualities();
+    const { currentUser: user, updateUserData } = useAuth();
+    const professions = useSelector(getProfessions());
+    const professionsLoading = useSelector(getProfessionsLoadingStatus());
+    const qualities = useSelector(getQualities());
+    const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
     const [data, setData] = useState();
     const [errors, setErrors] = useState({});
     useEffect(() => {
-        const userQualities = !isLoadingQualities
+        const userQualities = !qualitiesLoading
             ? user.qualities
                   .map((item) => qualities.find((q) => q._id === item))
                   .map((item) => ({ label: item.name, value: item._id }))
             : [];
         setData({ ...user, qualities: userQualities });
-    }, [isLoadingQualities]);
+    }, [qualitiesLoading]);
 
     const history = useHistory();
 
@@ -63,17 +72,17 @@ const EditUser = () => {
         }));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         if (!validate()) return;
         const newUser = {
             ...data,
             qualities: data.qualities.map((item) => item.value)
         };
-        updateUser(newUser);
+        await updateUserData(newUser);
         history.push(`/users/${user._id}`);
     };
-    if (data && !isLoadingProfessions && !isLoadingQualities) {
+    if (data && !professionsLoading && !qualitiesLoading) {
         return (
             <div className="container mt-5">
                 <div className="row">

@@ -9,8 +9,12 @@ import _ from "lodash";
 import Loader from "../../../utils/loader";
 import TextField from "../../common/form/textField";
 import { useUsers } from "../../../hooks/useUsers";
-import { useProfessions } from "../../../hooks/useProfessions";
 import { useAuth } from "../../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import {
+    getProfessions,
+    getProfessionsLoadingStatus
+} from "../../../../store/professions";
 
 const UsersListPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -19,7 +23,8 @@ const UsersListPage = () => {
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const pageSize = 4;
 
-    const { professions, isLoading: professionsLoading } = useProfessions();
+    const professions = useSelector(getProfessions());
+    const professionsLoading = useSelector(getProfessionsLoadingStatus());
     const { currentUser } = useAuth();
     const { users } = useUsers();
 

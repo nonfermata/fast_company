@@ -1,21 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Bookmark from "../common/bookmark";
-import Qualities from "../ui/qualities";
+import QualitiesList from "../ui/qualities";
 import Table from "../common/table";
 import Profession from "./profession";
 
-const UsersTable = ({
-    users,
-    onSort,
-    selectedSort,
-    onToggleBookMark
-}) => {
+const UsersTable = ({ users, onSort, selectedSort, onToggleBookMark }) => {
     const columns = {
         name: { path: "name", name: "Имя" },
         qualities: {
             name: "Качества",
-            component: (user) => <Qualities qualities={user.qualities} />
+            component: (user) => <QualitiesList qualities={user.qualities} />
         },
         profession: {
             path: "profession.name",
