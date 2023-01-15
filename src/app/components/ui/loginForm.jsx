@@ -3,11 +3,13 @@ import TextField from "../common/form/textField";
 import validator from "../../utils/validator";
 import CheckBoxField from "../common/form/checkBoxField";
 import { useHistory } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
+import { useDispatch } from "react-redux";
+import { signIn } from "../../../store/users";
 
 const LoginForm = () => {
     const history = useHistory();
-    const { signIn } = useAuth();
+    const dispatch = useDispatch();
+
     const initialState = {
         email: "",
         password: "",
@@ -49,19 +51,13 @@ const LoginForm = () => {
     };
     const isValid = Object.keys(errors).length === 0;
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
         if (!validate()) return;
-        try {
-            await signIn(data);
-            history.push(
-                history.location.state
-                    ? history.location.state.from.pathname
-                    : "/"
-            );
-        } catch (e) {
-            setEnterError(e.message);
-        }
+        const redirect = history.location.state
+            ? history.location.state.from.pathname
+            : "/";
+        dispatch(signIn(data, redirect));
     };
 
     return (

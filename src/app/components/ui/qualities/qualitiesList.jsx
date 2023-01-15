@@ -15,10 +15,10 @@ const QualitiesList = ({ qualities: userQualitiesId }) => {
     useEffect(() => {
         dispatch(loadQualitiesList());
     }, []);
-    const userQualities = userQualitiesId.map((id) =>
-        qualities.find((item) => item._id === id)
-    );
     if (!isLoading) {
+        const userQualities = userQualitiesId.map((id) =>
+            qualities.find((item) => item._id === id)
+        );
         return (
             <>
                 {userQualities.map((quality) => (

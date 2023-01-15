@@ -8,8 +8,7 @@ import validator from "../../../utils/validator";
 import Loader from "../../../utils/loader";
 import { useHistory } from "react-router-dom";
 import BackButton from "../../common/backButton";
-import { useAuth } from "../../../hooks/useAuth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     getQualities,
     getQualitiesLoadingStatus
@@ -18,9 +17,16 @@ import {
     getProfessions,
     getProfessionsLoadingStatus
 } from "../../../../store/professions";
+import {
+    getCurrentUserId,
+    getUserById,
+    updateUserData
+} from "../../../../store/users";
 
 const EditUser = () => {
-    const { currentUser: user, updateUserData } = useAuth();
+    const dispatch = useDispatch();
+    const currentUserId = useSelector(getCurrentUserId());
+    const user = useSelector(getUserById(currentUserId));
     const professions = useSelector(getProfessions());
     const professionsLoading = useSelector(getProfessionsLoadingStatus());
     const qualities = useSelector(getQualities());
@@ -79,7 +85,7 @@ const EditUser = () => {
             ...data,
             qualities: data.qualities.map((item) => item.value)
         };
-        await updateUserData(newUser);
+        dispatch(updateUserData(newUser));
         history.push(`/users/${user._id}`);
     };
     if (data && !professionsLoading && !qualitiesLoading) {
