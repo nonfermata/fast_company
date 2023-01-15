@@ -58,7 +58,7 @@ const AddCommentForm = ({ onSubmit }) => {
             />
             <div className="d-flex justify-content-end">
                 <button
-                    disabled={!isValid}
+                    disabled={!isValid || !data.content}
                     className="btn btn-primary"
                 >
                     Опубликовать

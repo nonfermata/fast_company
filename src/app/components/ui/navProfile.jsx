@@ -13,6 +13,7 @@ const NavProfile = () => {
     const toggleMenu = () => {
         setOpen((prevState) => !prevState);
     };
+
     if (!currentUser) {
         return <Loader />;
     }

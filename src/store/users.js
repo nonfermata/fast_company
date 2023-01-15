@@ -5,6 +5,7 @@ import localStorageService from "../app/services/localStorage.service";
 import authService from "../app/services/auth.service";
 import getRandomInt from "../app/utils/getRandomInt";
 import history from "../app/utils/history";
+import generateAuthError from "../app/utils/generateAuthError";
 
 const initialState = localStorageService.getAccessToken()
     ? {
@@ -47,6 +48,9 @@ const usersSlice = createSlice({
         authRequestFailed(state, action) {
             state.error = action.payload;
         },
+        authRequested(state) {
+            state.error = null;
+        },
         userCreated(state, action) {
             if (!Array.isArray(state.entities)) {
                 state.entities = [];
@@ -75,19 +79,24 @@ const {
     usersReceived,
     authRequestSuccess,
     authRequestFailed,
+    authRequested,
     userCreated,
     userLoggedOut,
     userUpdated
 } = actions;
-const authRequested = createAction("users/authRequested");
 const userCreateRequested = createAction("user/userCreateRequested");
 const createUserFailed = createAction("user/createUserFailed");
+const updateUserFailed = createAction("user/updateUserFailed");
+const updateUserRequested = createAction("user/updateUserRequested");
 
 export const updateUserData = (userData) => async (dispatch) => {
+    dispatch(updateUserRequested());
     try {
         const { content } = await userService.update(userData);
         dispatch(userUpdated(content));
-    } catch (e) {}
+    } catch (e) {
+        dispatch(updateUserFailed());
+    }
 };
 
 export const logOut = () => (dispatch) => {
@@ -109,7 +118,13 @@ export const signIn = (loginData, redirect) => async (dispatch) => {
         localStorageService.setTokens(data);
         history.push(redirect);
     } catch (e) {
-        dispatch(authRequestFailed(e.message));
+        const { code, message } = e.response.data.error;
+        if (code === 400) {
+            const errorMessage = generateAuthError(message);
+            dispatch(authRequestFailed(errorMessage));
+        } else {
+            dispatch(authRequestFailed(e.message));
+        }
     }
 };
 
@@ -179,5 +194,6 @@ export const getUsersLoadingStatus = () => (state) => state.users.isLoading;
 export const getIsLoggedIn = () => (state) => state.users.isLoggedIn;
 export const getDataStatus = () => (state) => state.users.dataLoaded;
 export const getCurrentUserId = () => (state) => state.users.auth.userId;
+export const getAuthError = () => (state) => state.users.error;
 
 export default usersReducer;
